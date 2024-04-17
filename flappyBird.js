@@ -1,4 +1,10 @@
 
+var birds = [];
+
+for (let i=0; i<=128; i++) {
+    birds.push(bird());
+}
+
 class global {
     height = 200 // The height of the stage (pixel)
 }
@@ -15,3 +21,7 @@ class pipe {
         this.height = height; // How height is the pipe on the ground
     };
 };
+
+calcGravity = function () {
+    s
+}

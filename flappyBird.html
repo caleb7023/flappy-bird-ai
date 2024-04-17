@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="flappyBird.js"></script>
+        <style>
+body {
+    margin: 0;
+}
+
+.backgroundColor {
+    width: 233px;
+    bottom: 0;
+    position: absolute;
+}
+
+#backgroundColor1 {
+    z-index: 4;
+    height: 21px;
+    background-color: #dbda96;
+}
+
+#backgroundColor2 {
+    z-index: 3;
+    height: 41px;
+    background-color: #89eb8b;
+}
+
+#backgroundColor3 {
+    z-index: 2;
+    height: 48px;
+    background-color: #7bc5cd;
+}
+
+#backgroundColor4 {
+    z-index: 1;
+    height: 67px;
+    background-color: #eafddb;
+}
+
+#backgroundColor5 {
+    z-index: 0;
+    height: 144px;
+    background-color: #7bc5cd;
+}
+
+.backgroundImgLine {
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    margin: 0;
+}
+
+.backgroundImg {
+    image-rendering: pixelated;
+    display: inline;
+    margin: 0;
+}
+
+#backgroundImgLine1 {
+    left: 0;
+    bottom: 21px;
+}
+
+#backgroundImgLine2 {
+    left: 0;
+    bottom: 36px;
+}
+
+#backgroundImgLine3 {
+    left: 0;
+    bottom: 48px;
+}
+
+#backgroundImgLine4 {
+    bottom: 67px;
+}
+        </style>
+    </head>
+    <body>
+        <div id="backgrounds">
+            <div id="backgroundColors">
+                <div id="backgroundColor1" class="backgroundColor"></div>
+                <div id="backgroundColor2" class="backgroundColor"></div>
+                <div id="backgroundColor3" class="backgroundColor"></div>
+                <div id="backgroundColor4" class="backgroundColor"></div>
+                <div id="backgroundColor5" class="backgroundColor"></div>
+            </div>
+            <div id="backgroundImgs">
+                <div id="backgroundImgLine1" class="backgroundImgLine">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                    <img src="./backgroundImgs/grass.png" class="backgroundImg">
+                </div>
+                <div id="backgroundImgLine2" class="backgroundImgLine">
+                    <img src="./backgroundImgs/bushes.png" class="backgroundImg">
+                    <img src="./backgroundImgs/bushes.png" class="backgroundImg">
+                    <img src="./backgroundImgs/bushes.png" class="backgroundImg">
+                    <img src="./backgroundImgs/bushes.png" class="backgroundImg">
+                    <img src="./backgroundImgs/bushes.png" class="backgroundImg">
+                </div>
+                <div id="backgroundImgLine3" class="backgroundImgLine">
+                    <img src="./backgroundImgs/buildings.png" class="backgroundImg">
+                    <img src="./backgroundImgs/buildings.png" class="backgroundImg">
+                    <img src="./backgroundImgs/buildings.png" class="backgroundImg">
+                    <img src="./backgroundImgs/buildings.png" class="backgroundImg">
+                    <img src="./backgroundImgs/buildings.png" class="backgroundImg">
+                    <img src="./backgroundImgs/buildings.png" class="backgroundImg">
+                    <img src="./backgroundImgs/buildings.png" class="backgroundImg">
+                </div>
+                <div id="backgroundImgLine4" class="backgroundImgLine">
+                    <img src="./backgroundImgs/clouds.png" class="backgroundImg">
+                    <img src="./backgroundImgs/clouds.png" class="backgroundImg">
+                    <img src="./backgroundImgs/clouds.png" class="backgroundImg">
+                </div>
+            </div>
+        </div>
+        <div id="pipes"></div>
+        <div id="birds"></div>
+    </body>
+</html>
