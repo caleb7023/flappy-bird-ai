@@ -2,10 +2,6 @@ GRAVITY = 1;
 
 var birds = [];
 
-for (let i=0; i<=128; i++) {
-    birds.push(bird());
-};
-
 class global {
     height = 200 // The height of the stage (pixel)
 };
@@ -35,3 +31,14 @@ moveBird = function () {
         targetBird.posY += targetBird.UpVelocity; // move by applying the velocity
     });
 };
+
+
+window.addEventListener("load", function () { // generate birds
+    for (let i=0; i < 128; i++){
+        birdElement_temp = document.createElement("img")
+        birdElement_temp.setAttribute("src", "./Imgs/bird.png");
+        birdElement = document.getElementById("birds").appendChild(birdElement_temp);
+        delete birdElement_temp;
+        birds.push([new bird(birdElement)]);
+    };
+});
