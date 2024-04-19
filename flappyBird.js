@@ -21,6 +21,18 @@ class pipe {
     };
 };
 
+class array {
+    add(a, b){
+        a.forEach(function (targetArrayOrNumber, index) {
+            if (targetArrayOrNumber instanceof array) {
+                targetArrayOrNumber.add(b[index]);
+            } else {
+                targetArrayOrNumber + b[index];
+            };
+        });
+    };
+};
+
 calcGravity = function () {
     birds.forEach(function (targetBird) {
         targetBird.UpVelocity -= global.GRAVITY; // calc gravity by subjecting the up velocity by gravity
@@ -58,7 +70,7 @@ main = function () {
         delete birdElement_temp;
         birds.push([new bird(birdElement)]);
     };
-    
+
 }
 
 window.addEventListener("load", main);
