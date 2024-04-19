@@ -49,8 +49,7 @@ render = function () {
     collisionCheckBird();
 }
 
-
-window.addEventListener("load", function () {
+main = function () {
 
     for (let i=0; i < 128; i++){ // generate birds
         birdElement_temp = document.createElement("img")
@@ -59,6 +58,7 @@ window.addEventListener("load", function () {
         delete birdElement_temp;
         birds.push([new bird(birdElement)]);
     };
+    
+}
 
-    s
-});
+window.addEventListener("load", main);
