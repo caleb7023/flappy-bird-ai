@@ -22,14 +22,102 @@ class pipe {
 };
 
 class array {
+    
+    array;
+
+    constructor (array) {
+
+        this.array = array;
+
+    };
+
+    rand (shape) {
+        
+        s
+    }
+
     add(a, b){
+
+        result = []
+
         a.forEach(function (targetArrayOrNumber, index) {
             if (targetArrayOrNumber instanceof array) {
-                targetArrayOrNumber.add(b[index]);
+                result.push(
+                    targetArrayOrNumber.add(b[index])
+                );
             } else {
-                targetArrayOrNumber + b[index];
+                result.push(
+                    targetArrayOrNumber + b[index]
+                );
             };
         });
+
+        return(result);
+
+    };
+
+    sub(a, b){
+
+        result = []
+
+        a.forEach(function (targetArrayOrNumber, index) {
+
+            if (targetArrayOrNumber instanceof array) {
+                result.push(
+                    targetArrayOrNumber.sub(b[index])
+                );
+            } else {
+                result.push(
+                    targetArrayOrNumber - b[index]
+                );
+            };
+        });
+
+        return(result);
+
+    };
+
+    mul(a, b){
+
+        result = []
+
+        a.forEach(function (targetArrayOrNumber, index) {
+
+            if (targetArrayOrNumber instanceof array) {
+                result.push(
+                    targetArrayOrNumber.mul(b[index])
+                );
+            } else {
+                result.push(
+                    targetArrayOrNumber*b[index]
+                );
+            };
+        });
+
+        return(result);
+
+    };
+
+
+    div(a, b){
+
+        result = []
+
+        a.forEach(function (targetArrayOrNumber, index) {
+
+            if (targetArrayOrNumber instanceof array) {
+                result.push(
+                    targetArrayOrNumber.div(b[index])
+                );
+            } else {
+                result.push(
+                    targetArrayOrNumber/b[index]
+                );
+            };
+        });
+
+        return(result);
+        
     };
 };
 
