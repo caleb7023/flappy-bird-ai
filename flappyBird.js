@@ -111,9 +111,9 @@ main = () => {
 
         train(0.01);
 
-        render();
-
         gameProcess();
+
+        render();
 
     }, 20);
 
