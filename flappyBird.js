@@ -10,9 +10,15 @@ class bird {
     constructor (element) {
         this.posY       = 100;     // How height from ground
         this.element    = element; // The html element of the bird
-        this.gameover   = false;   // is the bird gameovered or not
+        this.gameover   = false;   // was the bird gameovered or not
         this.UpVelocity = 0;       // How much pixel will it move in a frame
     };
+};
+
+mulArray = function (a, b) {
+
+    return a.map((value, index) => value * b[index]);
+
 };
 
 class pipe {
@@ -59,6 +65,6 @@ main = function () {
         birds.push([new bird(birdElement)]);
     };
 
-}
+};
 
 window.addEventListener("load", main);
