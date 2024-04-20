@@ -125,11 +125,6 @@ main = () => {
     
     delete birdElement_temp;
 
-         /* set the newuron's value */
-    firstLayerNeurons  = newNeurons(32, 4 );
-    secondLayerNeurons = newNeurons(8 , 32);
-    outputNeuron       = newNeurons(1 , 8 );
-
     setInterval(() => { // process & render
 
         train(0.01);
