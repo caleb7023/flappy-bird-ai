@@ -32,7 +32,7 @@ class array_ {
     };
 
     push (arrayOrNumber) {
-        
+
         this.array.push(arrayOrNumber)
 
     };
@@ -73,20 +73,24 @@ class array_ {
 
     add (a) {
 
-        var result = new array_();
+        var result = new array_([]);
 
-        this.forEach(function (targetArrayOrNumber, index) {
+        this.array.forEach(function (targetArrayOrNumber, index) {
 
-            if (targetArrayOrNumber instanceof array) {
+            if (targetArrayOrNumber instanceof array_) {
 
                 result.push(
-                    targetArrayOrNumber.add(a[index])
+
+                    targetArrayOrNumber.add(a.array[index])
+
                 );
 
             } else {
 
                 result.push(
-                    targetArrayOrNumber + a[index]
+
+                    targetArrayOrNumber + a.array[index]
+
                 );
                 
             };
@@ -99,20 +103,24 @@ class array_ {
 
     sub (a) {
 
-        var result = new array_();
+        var result = new array_([]);
 
-        this.forEach(function (targetArrayOrNumber, index) {
+        this.array.forEach(function (targetArrayOrNumber, index) {
 
             if (targetArrayOrNumber instanceof array) {
 
                 result.push(
-                    targetArrayOrNumber.sub(a[index])
+
+                    targetArrayOrNumber.sub(a.array[index])
+
                 );
 
             } else {
 
                 result.push(
-                    targetArrayOrNumber - a[index]
+
+                    targetArrayOrNumber - a.array[index]
+
                 );
 
             };
@@ -125,20 +133,24 @@ class array_ {
 
     mul (a) {
 
-        var result = new array_();
+        var result = new array_([]);
 
-        this.forEach(function (targetArrayOrNumber, index) {
+        this.array.forEach(function (targetArrayOrNumber, index) {
 
             if (targetArrayOrNumber instanceof array) {
 
                 result.push(
-                    targetArrayOrNumber.mul(a[index])
+
+                    targetArrayOrNumber.mul(a.array[index])
+
                 );
 
             } else {
 
                 result.push(
-                    targetArrayOrNumber*a[index]
+
+                    targetArrayOrNumber*a.array[index]
+
                 );
 
             };
@@ -152,20 +164,24 @@ class array_ {
 
     div (a) {
 
-        var result = new array_();
+        var result = new array_([]);
 
-        this.forEach(function (targetArrayOrNumber, index) {
+        this.array.forEach(function (targetArrayOrNumber, index) {
 
             if (targetArrayOrNumber instanceof array) {
 
                 result.push(
-                    targetArrayOrNumber.div(a[index])
+
+                    targetArrayOrNumber.div(a.array[index])
+
                 );
 
             } else {
 
                 result.push(
-                    targetArrayOrNumber/a[index]
+
+                    targetArrayOrNumber/a.array[index]
+
                 );
 
             };
