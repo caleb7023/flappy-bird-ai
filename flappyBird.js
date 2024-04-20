@@ -15,12 +15,15 @@ class bird {
     };
 };
 
-mulArray = function (a, b) {
+mulArray = function (a, b) { // multiply arrays
 
     return a.map((value, index) => value * b[index]);
 
 };
 
+sum = function (a) { // sum array
+    return a.reduce((result, value) => result + value, 0);
+}
 class pipe {
     constructor (height) {
         this.height = height; // How height is the pipe on the ground
