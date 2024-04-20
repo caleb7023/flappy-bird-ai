@@ -1,31 +1,29 @@
 
 var birds = [];
 
-class global {
-    height = 400 // The height of the stage (pixel)
-    GRAVITY = 1;
-};
+HEIGHT = 400 // The height of the stage (pixel)
+GRAVITY = 0.1;
 
 class bird {
     constructor (element) {
-        this.posY       = 100;     // How height from ground
+        this.posY       = 300;     // How height from ground
         this.element    = element; // The html element of the bird
         this.gameover   = false;   // was the bird gameovered or not
         this.UpVelocity = 0;       // How much pixel will it move in a frame
     };
 };
 
-mulArray = function (a, b) { // multiply arrays
+mulArray = (a, b) => { // multiply arrays
 
     return a.map((value, index) => value * b[index]);
 
 };
 
-sum = function (a) { // sum array
+sum = (a) => { // sum array
     return a.reduce((result, value) => result + value, 0);
 };
 
-swish = function (a) {
+swish = (a) => {
     return a / (Math.exp(-a) + 1)
 };
 class pipe {
@@ -34,43 +32,90 @@ class pipe {
     };
 };
 
-calcGravity = function () {
-    birds.forEach(function (targetBird) {
-        targetBird.UpVelocity -= global.GRAVITY; // calc gravity by subjecting the up velocity by gravity
+moveBird = () => {
+    birds.forEach((targetBird) => {
     });
 };
 
-moveBird = function () {
-    birds.forEach(function (targetBird) {
-        targetBird.posY += targetBird.UpVelocity; // move by applying the velocity
+gameProcess = () => {
+    birds.forEach((targetBird) => {
+        if (!targetBird.gameover) {
+            targetBird.UpVelocity -= GRAVITY;               // calc gravity by subjecting the up velocity by gravity
+            targetBird.posY       += targetBird.UpVelocity; // move by applying the velocity
+            if (targetBird.posY < 0 || 400 < targetBird.posY) { // check is the bird touched to bottom, top or the pipe.
+                targetBird.gameover = true;
+                targetBird.posY     = 0;
+            };
+        };
     });
-};
-
-collisionCheck = function (targetBird) {
-    return false;
-};
-
-collisionCheckBird = function () {
-    birds.forEach(function (targetBird) {
-        targetBird.gameover = collisionCheck(targetBird); // check is the bird touched to bottom, top or the pipe.
-    });
-};
-
-render = function () {
-    calcGravity();
-    calcMove();
-    collisionCheckBird();
 }
 
-main = function () {
+render = () => {
 
-    for (let i=0; i < 128; i++){ // generate birds
-        birdElement_temp = document.createElement("img")
+    birds.forEach((targetBird) => {
+        targetBird.element.style.bottom = String(targetBird.posY) + "px";
+    });
+
+};
+
+newNeurons = (amount, inputAmount) => {
+
+    resultNeurons = [];
+    
+    for (let i=0; i < amount; i++) {
+        
+        weights = [];
+
+        for (let k=0; k < inputAmount; k++) {
+
+            weights.push(Math.random()*100 - 50)
+
+        };
+
+        resultNeurons.push([
+            weights,               // weights
+            Math.random()*100 - 50 // bias
+        ]);
+
+    };
+
+    return(resultNeurons);
+
+};
+
+train = (LearningRate) => {
+
+    firstLayerNeurons  = newNeurons(32, 4);
+    secondLayerNeurons = newNeurons(8, 32);
+    outputNeuron       = newNeurons(1, 8)
+
+};
+
+main = () => {
+
+    for (let i=0; i < 128; i++) { // generate birds
+        birdElement_temp = document.createElement("img");
         birdElement_temp.setAttribute("src", "./Imgs/bird.png");
         birdElement = document.getElementById("birds").appendChild(birdElement_temp);
-        delete birdElement_temp;
-        birds.push([new bird(birdElement)]);
+        birds.push(new bird(birdElement));
     };
+    
+    delete birdElement_temp;
+
+         /* set the newuron's value */
+    firstLayerNeurons  = newNeurons(32, 4 );
+    secondLayerNeurons = newNeurons(8 , 32);
+    outputNeuron       = newNeurons(1 , 8 );
+
+    setInterval(() => { // process & render
+
+        train(0.01);
+
+        render();
+
+        gameProcess();
+
+    }, 20);
 
 };
 
