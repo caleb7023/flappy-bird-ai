@@ -1,6 +1,6 @@
 
 var birds = [];
-
+    
 HEIGHT = 400 // The height of the stage (pixel)
 GRAVITY = 0.1;
 
@@ -10,6 +10,7 @@ class bird {
         this.element    = element; // The html element of the bird
         this.gameover   = false;   // was the bird gameovered or not
         this.UpVelocity = 0;       // How much pixel will it move in a frame
+        this.gameoverPosX;
     };
 };
 
@@ -45,6 +46,7 @@ gameProcess = () => {
             if (targetBird.posY < 0 || 400 < targetBird.posY) { // check is the bird touched to bottom, top or the pipe.
                 targetBird.gameover = true;
                 targetBird.posY     = 0;
+                targetBird.element.style.filter = "grayscale(1)";
             };
         };
     });
@@ -116,7 +118,7 @@ main = () => {
 
         render();
 
-    }, 20);
+    }, 15);
 
 };
 
