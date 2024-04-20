@@ -96,6 +96,7 @@ main = () => {
     for (let i=0; i < 128; i++) { // generate birds
         birdElement_temp = document.createElement("img");
         birdElement_temp.setAttribute("src", "./Imgs/bird.png");
+        birdElement_temp.style.bottom = "300px";
         birdElement = document.getElementById("birds").appendChild(birdElement_temp);
         birds.push(new bird(birdElement));
     };
