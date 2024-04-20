@@ -21,7 +21,7 @@ class pipe {
     };
 };
 
-class array {
+class array_ {
     
     array;
 
@@ -31,67 +31,118 @@ class array {
 
     };
 
+    push (arrayOrNumber) {
+        
+        this.array.push(arrayOrNumber)
+
+    };
+
     rand (shape) {
+
+        var result = new array_([]);
+
+        if (shape.length != 1){
+
+            for (let i=0; i < shape[0]; i++) {
+    
+                result.push(
+    
+                    new array_().rand(shape.slice(1, shape.length))
+    
+                );
+    
+            };
+
+        } else {
+
+            for (let i=0; i < shape[0]; i++) {
+    
+                result.push(
+    
+                    Math.random()
+    
+                );
+    
+            };
+
+        };
         
-        s
-    }
+        return(result);
 
-    add(a, b){
+    };
 
-        result = []
+    add (a) {
 
-        a.forEach(function (targetArrayOrNumber, index) {
+        var result = new array_();
+
+        this.forEach(function (targetArrayOrNumber, index) {
+
             if (targetArrayOrNumber instanceof array) {
+
                 result.push(
-                    targetArrayOrNumber.add(b[index])
+                    targetArrayOrNumber.add(a[index])
                 );
+
             } else {
+
                 result.push(
-                    targetArrayOrNumber + b[index]
+                    targetArrayOrNumber + a[index]
                 );
+                
             };
+
         });
 
         return(result);
 
     };
 
-    sub(a, b){
+    sub (a) {
 
-        result = []
+        var result = new array_();
 
-        a.forEach(function (targetArrayOrNumber, index) {
+        this.forEach(function (targetArrayOrNumber, index) {
 
             if (targetArrayOrNumber instanceof array) {
+
                 result.push(
-                    targetArrayOrNumber.sub(b[index])
+                    targetArrayOrNumber.sub(a[index])
                 );
+
             } else {
+
                 result.push(
-                    targetArrayOrNumber - b[index]
+                    targetArrayOrNumber - a[index]
                 );
+
             };
+
         });
 
         return(result);
 
     };
 
-    mul(a, b){
+    mul (a) {
 
-        result = []
+        var result = new array_();
 
-        a.forEach(function (targetArrayOrNumber, index) {
+        this.forEach(function (targetArrayOrNumber, index) {
 
             if (targetArrayOrNumber instanceof array) {
+
                 result.push(
-                    targetArrayOrNumber.mul(b[index])
+                    targetArrayOrNumber.mul(a[index])
                 );
+
             } else {
+
                 result.push(
-                    targetArrayOrNumber*b[index]
+                    targetArrayOrNumber*a[index]
                 );
+
             };
+
         });
 
         return(result);
@@ -99,25 +150,30 @@ class array {
     };
 
 
-    div(a, b){
+    div (a) {
 
-        result = []
+        var result = new array_();
 
-        a.forEach(function (targetArrayOrNumber, index) {
+        this.forEach(function (targetArrayOrNumber, index) {
 
             if (targetArrayOrNumber instanceof array) {
+
                 result.push(
-                    targetArrayOrNumber.div(b[index])
+                    targetArrayOrNumber.div(a[index])
                 );
+
             } else {
+
                 result.push(
-                    targetArrayOrNumber/b[index]
+                    targetArrayOrNumber/a[index]
                 );
+
             };
+
         });
 
         return(result);
-        
+
     };
 };
 
