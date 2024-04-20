@@ -23,7 +23,11 @@ mulArray = function (a, b) { // multiply arrays
 
 sum = function (a) { // sum array
     return a.reduce((result, value) => result + value, 0);
-}
+};
+
+swish = function (a) {
+    return a / (Math.exp(-a) + 1)
+};
 class pipe {
     constructor (height) {
         this.height = height; // How height is the pipe on the ground
