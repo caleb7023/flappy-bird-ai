@@ -43,11 +43,13 @@ body {
     height: 400px;
     background-color: #7bc5cd;
 }
+
 img {
     image-rendering: pixelated;
     position: absolute;
-    z-index: 6;
+    z-index: 7;
 }
+
 .backgroundImgLine {
     z-index: 5;
     position: absolute;
@@ -85,6 +87,29 @@ img {
     left: 0;
     bottom: 67px;
 }
+
+.pipe {
+    z-index : 6;
+    position: absolute;
+    width : 25px;
+    height: 300px;
+}
+
+.pipeHatch {
+    background-image: url("./Imgs/pipeHatch.png");
+    position: block;
+    width : 25px;
+    height: 11px;
+    margin: 0;
+}
+.pipeMain {
+    background-image: url("./Imgs/pipeMain.png");
+    position: block;
+    width : 25px;
+    height: 289px;
+    margin: 0;
+}
+
         </style>
     </head>
     <body>
@@ -103,9 +128,7 @@ img {
                 <div id="backgroundImgLine4" class="backgroundImgLine"></div>
             </div>
         </div>
-        <div id="pipes">
-            s
-        </div>
+        <div id="pipes"></div>
         <div id="birds"></div>
     </body>
 </html>

@@ -1,6 +1,6 @@
 
 var birds = [];
-var pipes = [];
+var pipes = [0,0,0];
     
 HEIGHT = 400 // The height of the stage (pixel)
 GRAVITY = 0.1;
@@ -17,9 +17,10 @@ class bird {
 };
 
 class pipe {
-    constructor (posX) {
-        this.height = Math.random() * (HEIGHT-100); // How height is the pipe on the ground
-        this.posX   = posX;                         // The position X.
+    constructor (posX, height, elements) {
+        this.height  = height;  // How height is the pipe on the ground
+        this.posX    = posX;    // The position X.
+        this.elements= elements;// The html elements of the pipe
     };
 };
 
@@ -61,9 +62,18 @@ gameProcess = () => {
 
 render = () => {
 
-    birds.forEach((targetBird) => {
+    birds.forEach(targetBird => {
 
         targetBird.element.style.bottom = String(targetBird.posY) + "px";
+
+    });
+
+    pipes.forEach(pipe_ => {
+
+        if (pipe_ instanceof pipe) {
+            pipe_.elements[0].style.left = String(pipe_.posX - progress) + "px";
+            pipe_.elements[1].style.left = String(pipe_.posX - progress) + "px";
+        };
 
     });
 
@@ -154,9 +164,45 @@ main = () => {
 
     setInterval(() => { // process & render
 
-        if (progress%233==0){
-            pipes.push(new pipe(progress + 100));
+        if (progress%160 == 0) {
+            
+            height = Math.random() * (HEIGHT-100);
+
+            pipeElementBottom      = document.createElement("div");
+            pipeElementTop         = document.createElement("div");
+            pipeBottomHatchElement = document.createElement("div");
+            pipeBottomMainElement  = document.createElement("div");
+            pipeTopHatchElement    = document.createElement("div");
+            pipeTopMainElement     = document.createElement("div");
+
+            pipeElementBottom     .classList.add("pipe"     );
+            pipeElementTop        .classList.add("pipe"     );
+            pipeBottomHatchElement.classList.add("pipeHatch");
+            pipeBottomMainElement .classList.add("pipeMain" );
+            pipeTopHatchElement   .classList.add("pipeHatch");
+            pipeTopMainElement    .classList.add("pipeMain" );
+
+            pipeElementBottom.style.bottom = String(height-HEIGHT+100) + "px";
+            pipeElementTop   .style.bottom = String(height       +100) + "px";
+            
+            pipeElementBottom.appendChild(pipeBottomHatchElement);
+            pipeElementBottom.appendChild(pipeBottomMainElement );
+            pipeElementTop   .appendChild(pipeTopMainElement    );
+            pipeElementTop   .appendChild(pipeTopHatchElement   );
+
+            document.getElementById("pipes").appendChild(pipeElementBottom);
+            document.getElementById("pipes").appendChild(pipeElementTop   );
+
+            pipes.push(new pipe(progress + 233, height, [pipeElementBottom, pipeElementTop]));
+            
+            if (pipes[0] instanceof pipe) {
+                pipes[0].elements[0].remove();
+                pipes[0].elements[1].remove();
+            }
+            pipes.shift();
+
         };
+
         train(0.01);
         gameProcess();
         render();
