@@ -174,6 +174,11 @@ render = () => {
             pipe_.elements[1].style.left = String(pipe_.posX-progress) + "px"
         }
     })
+    document.getElementById("score").innerHTML = progress
+    if (bestProgress < progress) {
+        bestProgress = progress
+        document.getElementById("bestScore").innerHTML = bestProgress
+    }
 }
 
 
@@ -270,7 +275,6 @@ train = () => {
                 nextPipe.height - targetBird.posY
             ]
             var firstLayerOutput  = targetBird.nn[0].map((array) =>   swish(sum(mulArray(array[0], input           )) + array[1]))
-            if(targetBird.nn[2]==undefined){console.log(targetBird)}
             var secondLayerOutput = targetBird.nn[1].map((array) => sigmoid(sum(mulArray(array[0], firstLayerOutput)) + array[1]))
             var thirdLayerOutput  = sum(mulArray(targetBird.nn[2][0][0], secondLayerOutput)) + targetBird.nn[2][0][1]
             if (0 < thirdLayerOutput){jumpBird(targetBird)}
@@ -285,6 +289,8 @@ reset = (firstTime) => {
     pipes    = [0, 0]
     birds    = [    ]
     progress =  0
+    bestProgress = Math.max(bestProgress, progress)
+    document.getElementById("bestScore").innerHTML = bestProgress
     randomNumberResult = pipeSeed
     document.getElementById("birds").innerHTML = ""
     document.getElementById("pipes").innerHTML = ""
@@ -299,7 +305,6 @@ reset = (firstTime) => {
         else if (BIRD_COUNT-3 < i) {
             neurons = BIRD_COUNT-2 == i ? longestLived.nn : secoundLongestLived.nn
             isClone = true
-            birdElement.style.opacity = "0.5"
         } else if (Math.random() < 0.5) {
             neurons = mutateNeurons(longestLived.nn, Math.random())
         } else {
@@ -313,6 +318,7 @@ reset = (firstTime) => {
 
 
 main = () => {
+    bestProgress = 0
     pipeSeed = Math.random() * 2147483647
     keydown = false
     reset(true)

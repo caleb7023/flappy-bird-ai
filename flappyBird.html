@@ -6,6 +6,8 @@
 body {
     margin: 0;
     overflow: hidden;
+    width: 233px;
+    height: 400px;
 }
 
 .backgroundColor {
@@ -110,6 +112,34 @@ img {
     margin: 0;
 }
 
+p {
+    z-index: 8;
+    position: absolute;
+    font-size: 10px;
+    font-family: monospace;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+#score::before {
+    content: "Score: ";
+}
+
+#bestScore::before {
+    content: "Best Score: ";
+}
+
+#score {
+    bottom: 380px;
+    right: calc(100vw - 233px);
+}
+
+#bestScore {
+    bottom: 390px;
+    right: calc(100vw - 233px);
+}
+
         </style>
     </head>
     <body>
@@ -130,5 +160,7 @@ img {
         </div>
         <div id="pipes"></div>
         <div id="birds"></div>
+        <p id="score"    >0</p>
+        <p id="bestScore">0</p>
     </body>
 </html>
