@@ -200,25 +200,40 @@ newNeurons = (inputOutputAmounts) => {
 
 generateNeuronsBetween = (nn1, nn2, neuronMutationRate) => {
     resultNeurons = []
-    for (let i=0; i < nn1.length ;i++) {
-        weights = []
-        for (let k=0; k < nn1[i].length; k++) {
-            minNeuronWeight  = Math.min(nn1[i][0][k] , nn2[i][0][k])
-            NeuronWeightDiff = Math.abs(nn1[i][0][k] - nn2[i][0][k])
-            if (Math.random() < neuronMutationRate) {
-                weight = Math.random()*5 - 2.5
-            } else {
-                weight = minNeuronWeight + NeuronWeightDiff*Math.random() + 0.5 - Math.random()
+    for (let i=0; i < nn1.length; i++) {
+        resultNeurons.push([])
+        for (let j=0; j < nn1[i].length; j++) {
+            resultNeurons[i].push([])
+            weights = []
+            for (let k=0; k < nn1[i][j][0].length; k++) {
+                if (Math.random() < neuronMutationRate) {
+                    weight = Math.random()*5 - 2.5
+                } else {
+                    weight = Math.random() < 0.5 ? nn1[i][j][0][k] : nn2[i][j][0][k]
+                }
+                weights.push(weight)
             }
-            weights.push(weight)
+            bias = Math.random() < 0.5 ? nn1[i][j][1] : nn2[i][j][1]
+            resultNeurons[i][j] = [weights, bias]
         }
-        minNeuronBias  = Math.min(nn1[i][1] , nn2[i][1])
-        NeuronBiasDiff =          nn1[i][1] - nn2[i][1] 
-        bias = minNeuronBias + Math.abs(NeuronBiasDiff*Math.random())
-        resultNeurons.push([
-            weights, // weights
-            bias     // bias
-        ])
+    }
+    return(resultNeurons)
+}
+
+mutateNeurons = (neurons, neuronMutationRate) => {
+    resultNeurons = []
+    for (let i=0; i < neurons.length; i++) {
+        resultNeurons.push([])
+        for (let j=0; j < neurons[i].length; j++) {
+            resultNeurons[i].push([])
+            weights = []
+            for (let k=0; k < neurons[i][j][0].length; k++) {
+                weight = Math.random() < neuronMutationRate ? neurons[i][j][0][k] : Math.random()*5 - 2.5
+                weights.push(weight)
+            }
+            bias = Math.random() < neuronMutationRate ? neurons[i][j][1] : Math.random()*5 - 2.5
+            resultNeurons[i][j] = [weights, bias]
+        }
     }
     return(resultNeurons)
 }
@@ -255,6 +270,7 @@ train = () => {
                 nextPipe.height - targetBird.posY
             ]
             var firstLayerOutput  = targetBird.nn[0].map((array) =>   swish(sum(mulArray(array[0], input           )) + array[1]))
+            if(targetBird.nn[2]==undefined){console.log(targetBird)}
             var secondLayerOutput = targetBird.nn[1].map((array) => sigmoid(sum(mulArray(array[0], firstLayerOutput)) + array[1]))
             var thirdLayerOutput  = sum(mulArray(targetBird.nn[2][0][0], secondLayerOutput)) + targetBird.nn[2][0][1]
             if (0 < thirdLayerOutput){jumpBird(targetBird)}
@@ -284,18 +300,10 @@ reset = (firstTime) => {
             neurons = BIRD_COUNT-2 == i ? longestLived.nn : secoundLongestLived.nn
             isClone = true
             birdElement.style.opacity = "0.5"
-        } else if (BIRD_COUNT-13 < i) {
-            neurons = [
-                neuronTweak(longestLived.nn[0], 0),
-                neuronTweak(longestLived.nn[1], 0),
-                neuronTweak(longestLived.nn[2], 0),
-            ]
+        } else if (Math.random() < 0.5) {
+            neurons = mutateNeurons(longestLived.nn, Math.random())
         } else {
-            neurons = [
-                generateNeuronsBetween(longestLived.nn[0], secoundLongestLived.nn[0], 0.1), // first layer's neurons
-                generateNeuronsBetween(longestLived.nn[1], secoundLongestLived.nn[1], 0.1), // second layer's neurons
-                generateNeuronsBetween(longestLived.nn[2], secoundLongestLived.nn[2], 0.1)  // output's neuron
-            ]
+            neurons = generateNeuronsBetween(longestLived.nn, secoundLongestLived.nn, Math.random() * 0.1)
         }
         birds.push(new bird(birdElement, neurons, isClone))
     }
