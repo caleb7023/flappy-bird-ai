@@ -196,7 +196,6 @@ newNeurons = (amount, inputAmount) => {
 generateNeuronsBetween = (nn1, nn2) => {
 
     resultNeurons = [];
-    console.log(nn1.length)
     
     for (let i=0; i < nn1.length; i++) {
         
