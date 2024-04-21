@@ -1,27 +1,32 @@
 
-var birds = [];
-var pipes = [0,0];
-    
-HEIGHT = 400 // The height of the stage (pixel)
+HEIGHT  = 400 // The height of the stage (pixel)
 GRAVITY = 0.1;
 
 class bird {
+
     constructor (element, nn) {
+
         this.nn         = nn;      // The neutral network
         this.posY       = 300;     // How height from ground
         this.element    = element; // The html element of the bird
         this.gameover   = false;   // Was the bird gameovered or not
         this.gameoverX  = 0;       // The progress value when the gameover
         this.UpVelocity = 0;       // How much pixel will it move in a frame
+
     };
+
 };
 
 class pipe {
+
     constructor (posX, height, elements) {
+
         this.height  = height;  // How height is the pipe on the ground
         this.posX    = posX;    // The position X.
         this.elements= elements;// The html elements of the pipe
+
     };
+
 };
 
 mulArray = (a, b) => { // multiply arrays
@@ -31,19 +36,80 @@ mulArray = (a, b) => { // multiply arrays
 };
 
 sum = (a) => { // sum array
+
     return a.reduce((result, value) => result + value, 0);
+
 };
 
 swish = (a) => {
+
     return a / (Math.exp(-a) + 1)
+
 };
 
-jumpBird = (targetBird) => {
+jumpBird = (targetBird) => { // add one to the targetBird's Upword velocity
+
     targetBird.UpVelocity += 4;
+
 };
 
 gameProcess = () => {
+    
+    if (progress%160 == 0) { // add pipe
+        
+        height = Math.random() * (HEIGHT-100);
+
+        pipeElementBottom      = document.createElement("div");
+        pipeElementTop         = document.createElement("div");
+        pipeBottomHatchElement = document.createElement("div");
+        pipeBottomMainElement  = document.createElement("div");
+        pipeTopHatchElement    = document.createElement("div");
+        pipeTopMainElement     = document.createElement("div");
+
+        pipeElementBottom     .classList.add("pipe"     );
+        pipeElementTop        .classList.add("pipe"     );
+        pipeBottomHatchElement.classList.add("pipeHatch");
+        pipeBottomMainElement .classList.add("pipeMain" );
+        pipeTopHatchElement   .classList.add("pipeHatch");
+        pipeTopMainElement    .classList.add("pipeMain" );
+
+        pipeElementBottom.style.bottom = String(height-HEIGHT+100) + "px";
+        pipeElementTop   .style.bottom = String(height       +100) + "px";
+        
+        pipeElementBottom.appendChild(pipeBottomHatchElement);
+        pipeElementBottom.appendChild(pipeBottomMainElement );
+        pipeElementTop   .appendChild(pipeTopMainElement    );
+        pipeElementTop   .appendChild(pipeTopHatchElement   );
+
+        document.getElementById("pipes").appendChild(pipeElementBottom);
+        document.getElementById("pipes").appendChild(pipeElementTop   );
+
+        pipes.push(new pipe(progress + 233, height, [pipeElementBottom, pipeElementTop]));
+
+        if (pipes[0] instanceof pipe) {
+            pipes[0].elements[0].remove();
+            pipes[0].elements[1].remove();
+        }
+
+        pipes.shift();
+
+    };
+
+    nextPipeDistance = 2147483647;
+
+    pipes.forEach(pipe => {
+
+        pipeDistance = pipe.posX - progress;
+        
+        if (0 < pipeDistance && pipeDistance < nextPipeDistance) {
+            nextPipeDistance = pipeDistance - 42;
+            nextPipe         = pipe;
+        };
+
+    });
+
     progress++;
+
     birds.forEach((targetBird) => {
         if (!targetBird.gameover) {
 
@@ -56,6 +122,7 @@ gameProcess = () => {
                 targetBird.posY      = targetBird.posY < 0 ? 0 : HEIGHT-12;
                 targetBird.gameoverX = progress;
                 targetBird.element.style.filter = "grayscale(1)";
+                fails++;
 
             } else if (nextPipeDistance <= 0 && (targetBird.posY < nextPipe.height || nextPipe.height+88 < targetBird.posY)) { // check is the brid touching the pipe
 
@@ -63,6 +130,7 @@ gameProcess = () => {
                 targetBird.posY      = targetBird.posY;
                 targetBird.gameoverX = progress;
                 targetBird.element.style.filter = "grayscale(1)";
+                fails++;
 
             };
 
@@ -72,7 +140,21 @@ gameProcess = () => {
 
         };
     });
-}
+
+    if(fails==128){reset()};
+};
+
+gameover = (targetBird) => {
+
+    targetBird.gameover  = true;
+    targetBird.gameoverX = progress;
+    targetBird.element.style.filter = "grayscale(1)";
+    fails++;
+    if (fails==127) {secoundLogestLived = targetBird}
+    if (fails==128) {LogestLived        = targetBird}
+
+
+};
 
 render = () => {
 
@@ -119,19 +201,6 @@ newNeurons = (amount, inputAmount) => {
 };
 
 train = () => {
-
-    nextPipeDistance = 2147483647;
-
-    pipes.forEach(pipe => {
-
-        pipeDistance = pipe.posX - progress;
-        
-        if (0 < pipeDistance && pipeDistance < nextPipeDistance) {
-            nextPipeDistance = pipeDistance - 42;
-            nextPipe         = pipe;
-        };
-
-    });
     
     nextPipeHeight = nextPipe.height;
 
@@ -157,7 +226,14 @@ train = () => {
 
 };
 
-main = () => {
+reset = () => {
+
+    fails    =  0;
+    pipes    = [0, 0];
+    birds    = [    ];
+    progress =  0;
+    document.getElementById("birds").innerHTML = "";
+    document.getElementById("pipes").innerHTML = "";
 
     for (let i=0; i < 128; i++) { // generate birds
         birdElement_temp = document.createElement("img");
@@ -172,56 +248,40 @@ main = () => {
         ]));
     };
     
-    delete birdElement_temp;
+    delete(birdElement_temp);
 
-    progress = 0;
+};
+
+main = () => {
+
+    reset();
+
+    keydown = false;
 
     setInterval(() => { // process & render
 
-        if (progress%160 == 0) {
-            
-            height = Math.random() * (HEIGHT-100);
+        if (!keydown) {
+            gameProcess();
+            train(0.01);
+            render();
+        };
 
-            pipeElementBottom      = document.createElement("div");
-            pipeElementTop         = document.createElement("div");
-            pipeBottomHatchElement = document.createElement("div");
-            pipeBottomMainElement  = document.createElement("div");
-            pipeTopHatchElement    = document.createElement("div");
-            pipeTopMainElement     = document.createElement("div");
+    }, 15);
 
-            pipeElementBottom     .classList.add("pipe"     );
-            pipeElementTop        .classList.add("pipe"     );
-            pipeBottomHatchElement.classList.add("pipeHatch");
-            pipeBottomMainElement .classList.add("pipeMain" );
-            pipeTopHatchElement   .classList.add("pipeHatch");
-            pipeTopMainElement    .classList.add("pipeMain" );
+    window.addEventListener("keydown", () => {keydown = true });
+    window.addEventListener("keyup"  , () => {keydown = false});
 
-            pipeElementBottom.style.bottom = String(height-HEIGHT+100) + "px";
-            pipeElementTop   .style.bottom = String(height       +100) + "px";
-            
-            pipeElementBottom.appendChild(pipeBottomHatchElement);
-            pipeElementBottom.appendChild(pipeBottomMainElement );
-            pipeElementTop   .appendChild(pipeTopMainElement    );
-            pipeElementTop   .appendChild(pipeTopHatchElement   );
+    setInterval(() => {
 
-            document.getElementById("pipes").appendChild(pipeElementBottom);
-            document.getElementById("pipes").appendChild(pipeElementTop   );
+        if(keydown){
 
-            pipes.push(new pipe(progress + 233, height, [pipeElementBottom, pipeElementTop]));
-            
-            if (pipes[0] instanceof pipe) {
-                pipes[0].elements[0].remove();
-                pipes[0].elements[1].remove();
-            }
-            pipes.shift();
+            gameProcess();
+            train(0.01);
+            render();
 
         };
 
-        train(0.01);
-        gameProcess();
-        render();
-
-    }, 15);
+    }, 0);
 
 };
 
