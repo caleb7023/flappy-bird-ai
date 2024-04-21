@@ -1,6 +1,6 @@
 
 var birds = [];
-var pipes = [0,0,0];
+var pipes = [0,0];
     
 HEIGHT = 400 // The height of the stage (pixel)
 GRAVITY = 0.1;
@@ -46,33 +46,47 @@ gameProcess = () => {
     progress++;
     birds.forEach((targetBird) => {
         if (!targetBird.gameover) {
+
             targetBird.UpVelocity -= GRAVITY;               // calc gravity by subjecting the up velocity by gravity
             targetBird.posY       += targetBird.UpVelocity; // move by applying the velocity
-            if (targetBird.posY < 0 || 400 < targetBird.posY) { // check is the bird touched to bottom, top or the pipe.
+
+            if (targetBird.posY < 0 || 388 < targetBird.posY) { // check is the bird touching to bottom, top.
+
                 targetBird.gameover  = true;
                 targetBird.posY      = targetBird.posY < 0 ? 0 : HEIGHT-12;
                 targetBird.gameoverX = progress;
                 targetBird.element.style.filter = "grayscale(1)";
+
+            } else if (nextPipeDistance <= 0 && (targetBird.posY < nextPipe.height || nextPipe.height+88 < targetBird.posY)) { // check is the brid touching the pipe
+
+                targetBird.gameover  = true;
+                targetBird.posY      = targetBird.posY;
+                targetBird.gameoverX = progress;
+                targetBird.element.style.filter = "grayscale(1)";
+
             };
+
         }else{
+
             targetBird.element.style.left = String(targetBird.gameoverX - progress + 25) + "px";
+
         };
     });
 }
 
 render = () => {
 
-    birds.forEach(targetBird => {
+    birds.forEach(targetBird => { // render birds
 
         targetBird.element.style.bottom = String(targetBird.posY) + "px";
 
     });
 
-    pipes.forEach(pipe_ => {
+    pipes.forEach(pipe_ => { // render pipes
 
         if (pipe_ instanceof pipe) {
-            pipe_.elements[0].style.left = String(pipe_.posX - progress) + "px";
-            pipe_.elements[1].style.left = String(pipe_.posX - progress) + "px";
+            pipe_.elements[0].style.left = String(pipe_.posX-progress) + "px";
+            pipe_.elements[1].style.left = String(pipe_.posX-progress) + "px";
         };
 
     });
@@ -112,14 +126,14 @@ train = () => {
 
         pipeDistance = pipe.posX - progress;
         
-        if (0 < pipeDistance || pipeDistance < nextPipeDistance) {
-            nextPipeDistance = pipeDistance - 25;
-            nextPipe = pipe;
+        if (0 < pipeDistance && pipeDistance < nextPipeDistance) {
+            nextPipeDistance = pipeDistance - 42;
+            nextPipe         = pipe;
         };
 
     });
     
-    nextPipeHeight   = nextPipe.height;
+    nextPipeHeight = nextPipe.height;
 
     birds.forEach((targetBird) => {
         if (!targetBird.gameover){
