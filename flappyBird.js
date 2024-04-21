@@ -118,19 +118,13 @@ gameProcess = () => {
 
             if (targetBird.posY < 0 || 388 < targetBird.posY) { // check is the bird touching to bottom, top.
 
-                targetBird.gameover  = true;
-                targetBird.posY      = targetBird.posY < 0 ? 0 : HEIGHT-12;
-                targetBird.gameoverX = progress;
-                targetBird.element.style.filter = "grayscale(1)";
-                fails++;
+                gameover_(targetBird);
+                targetBird.posY = targetBird.posY < 0 ? 0 : HEIGHT-12;
 
             } else if (nextPipeDistance <= 0 && (targetBird.posY < nextPipe.height || nextPipe.height+88 < targetBird.posY)) { // check is the brid touching the pipe
 
-                targetBird.gameover  = true;
-                targetBird.posY      = targetBird.posY;
-                targetBird.gameoverX = progress;
-                targetBird.element.style.filter = "grayscale(1)";
-                fails++;
+                gameover_(targetBird);
+                targetBird.posY = targetBird.posY;
 
             };
 
@@ -141,18 +135,17 @@ gameProcess = () => {
         };
     });
 
-    if(fails==128){reset()};
+    if(fails==128){reset(false)};
 };
 
-gameover = (targetBird) => {
+gameover_ = (targetBird) => {
 
     targetBird.gameover  = true;
     targetBird.gameoverX = progress;
     targetBird.element.style.filter = "grayscale(1)";
     fails++;
-    if (fails==127) {secoundLogestLived = targetBird}
-    if (fails==128) {LogestLived        = targetBird}
-
+    if (fails==127) {secoundLongestLived = targetBird}
+    if (fails==128) {longestLived        = targetBird}
 
 };
 
@@ -200,6 +193,43 @@ newNeurons = (amount, inputAmount) => {
 
 };
 
+generateNeuronsBetween = (nn1, nn2) => {
+
+    resultNeurons = [];
+    console.log(nn1.length)
+    
+    for (let i=0; i < nn1.length; i++) {
+        
+        weights = [];
+
+        for (let k=0; k < nn1[i].length; k++) {
+
+            minNeuronWeight  = Math.min(nn1[i][0][k] , nn2[i][0][k]);
+            NeuronWeightDiff =          nn1[i][0][k] - nn2[i][0][k] ;
+
+            weight = minNeuronWeight + Math.abs(NeuronWeightDiff*Math.random());
+
+            weights.push(weight);
+
+        };
+
+        minNeuronBias  = Math.min(nn1[i][1] , nn2[i][1]);
+        NeuronBiasDiff =          nn1[i][1] - nn2[i][1] ;
+
+        bias = minNeuronBias + Math.abs(NeuronBiasDiff*Math.random());
+
+        resultNeurons.push([
+            weights, // weights
+            bias     // bias
+        ]);
+
+    };
+
+    return(resultNeurons);
+
+
+}
+
 train = () => {
     
     nextPipeHeight = nextPipe.height;
@@ -226,7 +256,7 @@ train = () => {
 
 };
 
-reset = () => {
+reset = (firstTime) => {
 
     fails    =  0;
     pipes    = [0, 0];
@@ -236,16 +266,32 @@ reset = () => {
     document.getElementById("pipes").innerHTML = "";
 
     for (let i=0; i < 128; i++) { // generate birds
+        
         birdElement_temp = document.createElement("img");
         birdElement_temp.setAttribute("src", "./Imgs/bird.png");
         birdElement_temp.style.bottom = "300px";
         birdElement_temp.style.left   =  "25px";
         birdElement = document.getElementById("birds").appendChild(birdElement_temp);
-        birds.push(new bird(birdElement, [
-            newNeurons(32, 4 ), // first layer's neurons
-            newNeurons(8 , 32), // second layer's neurons
-            newNeurons(1 , 8 )  // output's neuron
-        ]));
+
+        if (0.4 < Math.random() && !firstTime) {
+            
+            Neurons = [
+                generateNeuronsBetween(longestLived.nn[0], secoundLongestLived.nn[0]), // first layer's neurons
+                generateNeuronsBetween(longestLived.nn[1], secoundLongestLived.nn[1]), // second layer's neurons
+                generateNeuronsBetween(longestLived.nn[2], secoundLongestLived.nn[2])  // output's neuron
+            ];
+
+        } else {
+
+            Neurons = [
+                newNeurons(32, 4 ), // first layer's neurons
+                newNeurons(8 , 32), // second layer's neurons
+                newNeurons(1 , 8 )  // output's neuron
+            ];
+
+        };
+
+        birds.push(new bird(birdElement, Neurons));
     };
     
     delete(birdElement_temp);
@@ -254,7 +300,7 @@ reset = () => {
 
 main = () => {
 
-    reset();
+    reset(true);
 
     keydown = false;
 
