@@ -1,5 +1,7 @@
-{: align="center"}
-![flappyBirdAI](./media/flappyBirdAI.png)
+
+<div align="center">
+    <img src="./media/flappyBirdAI.png" alt="flappy bird ai">
+</div>
 
 # Flappy Bird AI
 
