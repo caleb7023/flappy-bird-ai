@@ -301,7 +301,7 @@ reset = (firstTime) => {
         birdElement_temp.style.left   =  "25px"
         birdElement = document.getElementById("birds").appendChild(birdElement_temp)
         isClone = false
-        if      (firstTime       ) {
+        if (firstTime) {
             neurons = newNeurons([4, 32, 8, 1])
         }
         else if (BIRD_COUNT-3 < i) {
