@@ -1,3 +1,5 @@
+![flappyBirdAI](./media/flappyBirdAI.png)
+
 # Flappy Bird AI
 
 Flappy bird ai is a code that plays flappy bird automatically.
