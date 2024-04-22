@@ -1,3 +1,4 @@
+{: align="center"}
 ![flappyBirdAI](./media/flappyBirdAI.png)
 
 # Flappy Bird AI
