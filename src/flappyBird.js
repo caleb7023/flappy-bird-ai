@@ -62,7 +62,7 @@ jumpBird = (targetBird) => {
 
 
 
-xorshift = () => {
+xorshift = () => { // random number generator
     randomNumberResult ^= randomNumberResult <<  7
     randomNumberResult ^= randomNumberResult >>> 9
     return(randomNumberResult)
@@ -174,7 +174,8 @@ render = () => {
             pipe_.elements[1].style.left = String(pipe_.posX-progress) + "px"
         }
     })
-    document.getElementById("score").innerHTML = progress
+    document.getElementById("score"     ).innerHTML = progress
+    document.getElementById("generation").innerHTML = generation
     if (bestProgress < progress) {
         bestProgress = progress
         document.getElementById("bestScore").innerHTML = bestProgress
@@ -256,6 +257,7 @@ reset = (firstTime) => {
     pipes    = [0, 0] // reset the pipe count
     birds    = [    ] // reset the birds
     progress =  0 // reset the progress
+    generation++; // increase the generation counter
     bestProgress = Math.max(bestProgress, progress) // calulate the best progress
     document.getElementById("bestScore").innerHTML = bestProgress // update the best progress on the screen
     randomNumberResult = pipeSeed // reset the random number generator
@@ -285,6 +287,7 @@ reset = (firstTime) => {
 
 
 main = () => {
+    generation = 0 // reset the generation counter
     bestProgress = 0 // reset the best progress
     pipeSeed = Math.random() * 2147483647 // set a random seed for pipe generation
     keydown = false // set the keydown variable to false

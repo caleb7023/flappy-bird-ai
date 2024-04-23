@@ -130,6 +130,10 @@ p {
     content: "Best Score: ";
 }
 
+#generation::before {
+    content: "Generation : ";
+}
+
 #score {
     bottom: 380px;
     right: calc(100vw - 233px);
@@ -140,6 +144,10 @@ p {
     right: calc(100vw - 233px);
 }
 
+#generation {
+    bottom: 370px;
+    right: calc(100vw - 233px);
+}
         </style>
     </head>
     <body>
@@ -160,7 +168,8 @@ p {
         </div>
         <div id="pipes"></div>
         <div id="birds"></div>
-        <p id="score"    >0</p>
-        <p id="bestScore">0</p>
+        <p id="score"     >0</p>
+        <p id="bestScore" >0</p>
+        <p id="generation">0</p>
     </body>
 </html>
