@@ -139,9 +139,6 @@ gameProcess = () => {
                 targetBird.posY = targetBird.posY
 
             }
-        }else{
-            // scroll the dead bird
-            targetBird.element.style.left = String(targetBird.gameoverX - progress + 25) + "px"
         }
     })
     // reset the birds when the last bird dies
@@ -167,6 +164,9 @@ gameover_ = (targetBird) => {
 render = () => {
     birds.forEach(targetBird => { // render birds
         targetBird.element.style.bottom = String(targetBird.posY) + "px"
+        if (targetBird.gameover) {
+            targetBird.element.style.left = String(targetBird.gameoverX - progress + 25) + "px" // scroll the dead bird
+        }
     })
     pipes.forEach(pipe_ => { // render pipes
         if (pipe_ instanceof pipe) {
