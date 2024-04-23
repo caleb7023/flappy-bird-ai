@@ -182,14 +182,14 @@ render = () => {
 }
 
 
-
+// crate a new neural network with random weights and biases
 newNeurons = (inputOutputAmounts) => {
-    resultNeurons = []
+    resultNeurons = [] // create a new neural network
     for (let i=1; i < inputOutputAmounts.length; i++) {
-        resultNeurons.push([])
+        resultNeurons.push([]) // push a new neuron array
         for (let j=0; j < inputOutputAmounts[i]; j++) {
-            resultNeurons[i-1].push([])
-            weights = []
+            resultNeurons[i-1].push([]) // create the array to store the neuron's weights and biases
+            weights = [] // create the array to store the neuron's weights
             for (let k=0; k < inputOutputAmounts[i-1]; k++) {
                 weight = Math.random()*5 - 2.5;
                 weights.push(weight)
@@ -202,24 +202,28 @@ newNeurons = (inputOutputAmounts) => {
 }
 
 
-
+// create a new neural network with random change weight and bias chaging and shuffle the two weights and biases
 generateNeuronsBetween = (nn1, nn2, neuronMutationRate) => {
-    resultNeurons = []
+    resultNeurons = [] // create a new neural network
     for (let i=0; i < nn1.length; i++) {
-        resultNeurons.push([])
+        resultNeurons.push([]) // create a new neuron array
         for (let j=0; j < nn1[i].length; j++) {
-            resultNeurons[i].push([])
-            weights = []
+            resultNeurons[i].push([]) // create the array to store the neuron's weights and biases
+            weights = [] // create the array to store the neuron's weights
             for (let k=0; k < nn1[i][j][0].length; k++) {
-                if (Math.random() < neuronMutationRate) {
-                    weight = Math.random()*5 - 2.5
+                if (Math.random() < neuronMutationRate) { // mute the weight if the random number is less than the mutation rate
+                    weight = Math.random()*5 - 2.5 // mutate the weight
                 } else {
-                    weight = Math.random() < 0.5 ? nn1[i][j][0][k] : nn2[i][j][0][k]
+                    weight = Math.random() < 0.5 ? nn1[i][j][0][k] : nn2[i][j][0][k] // shuffle the weight
                 }
-                weights.push(weight)
+                weights.push(weight) // push the weight into the neuron array
             }
-            bias = Math.random() < 0.5 ? nn1[i][j][1] : nn2[i][j][1]
-            resultNeurons[i][j] = [weights, bias]
+            if (Math.random() < neuronMutationRate) { // mute the bias if the random number is less than the mutation rate
+                bias = Math.random()*5 - 2.5 // mute the bias
+            } else {
+                bias = Math.random() < 0.5 ? nn1[i][j][1] : nn2[i][j][1] // shuffle the bias
+            }
+            resultNeurons[i][j] = [weights, bias] // push the bias into the neuron array
         }
     }
     return(resultNeurons)
@@ -264,20 +268,20 @@ neuronTweak = (nn, error) => {
 
 
 
-train = () => {
+processBirdsNeuralNetwork = () => {
     nextPipeHeight = nextPipe.height
-    birds.forEach((targetBird) => {
-        if (!targetBird.gameover){
-            input = [
-                targetBird.UpVelocity,
-                targetBird.posY,
-                nextPipeDistance,
-                nextPipe.height - targetBird.posY
+    birds.forEach((targetBird) => { // calculate the neural network's input and output
+        if (!targetBird.gameover){ // if the bird is not dead
+            input = [ // set the neural network's input
+                targetBird.UpVelocity, // up word velocity
+                targetBird.posY, // bird's y position
+                nextPipeDistance, // distance to the next pipe
+                nextPipe.height - targetBird.posY // bird's y position - pipe's y position
             ]
-            var firstLayerOutput  = targetBird.nn[0].map((array) =>   swish(sum(mulArray(array[0], input           )) + array[1]))
-            var secondLayerOutput = targetBird.nn[1].map((array) => sigmoid(sum(mulArray(array[0], firstLayerOutput)) + array[1]))
-            var thirdLayerOutput  = sum(mulArray(targetBird.nn[2][0][0], secondLayerOutput)) + targetBird.nn[2][0][1]
-            if (0 < thirdLayerOutput){jumpBird(targetBird)}
+            var firstLayerOutput  = targetBird.nn[0].map((array) =>   swish(sum(mulArray(array[0], input           )) + array[1])) // calculate the first layer output
+            var secondLayerOutput = targetBird.nn[1].map((array) => sigmoid(sum(mulArray(array[0], firstLayerOutput)) + array[1])) // calculate the second layer output
+            var thirdLayerOutput  = sum(mulArray(targetBird.nn[2][0][0], secondLayerOutput)) + targetBird.nn[2][0][1] // calculate the third layer output
+            if (0 < thirdLayerOutput){jumpBird(targetBird)} // jump the bird if the third layer output is positive
         }
     })
 }
@@ -285,56 +289,56 @@ train = () => {
 
 
 reset = (firstTime) => {
-    fails    =  0
-    pipes    = [0, 0]
-    birds    = [    ]
-    progress =  0
-    bestProgress = Math.max(bestProgress, progress)
-    document.getElementById("bestScore").innerHTML = bestProgress
-    randomNumberResult = pipeSeed
-    document.getElementById("birds").innerHTML = ""
-    document.getElementById("pipes").innerHTML = ""
+    fails    =  0 // reset the death counter
+    pipes    = [0, 0] // reset the pipe count
+    birds    = [    ] // reset the birds
+    progress =  0 // reset the progress
+    bestProgress = Math.max(bestProgress, progress) // calulate the best progress
+    document.getElementById("bestScore").innerHTML = bestProgress // update the best progress on the screen
+    randomNumberResult = pipeSeed // reset the random number generator
+    document.getElementById("birds").innerHTML = "" // remove all bird's html element
+    document.getElementById("pipes").innerHTML = "" // remove all pipe's html elements
     for (let i=0; i < BIRD_COUNT; i++) { // generate birds
-        birdElement_temp = document.createElement("img")
-        birdElement_temp.setAttribute("src", "./Imgs/bird.png")
-        birdElement_temp.style.bottom = "300px"
-        birdElement_temp.style.left   =  "25px"
-        birdElement = document.getElementById("birds").appendChild(birdElement_temp)
-        isClone = false
-        if (firstTime) {
-            neurons = newNeurons([4, 32, 8, 1])
+        birdElement_temp = document.createElement("img") // create a new bird's html element
+        birdElement_temp.setAttribute("src", "./Imgs/bird.png") // set the bird's image
+        birdElement_temp.style.bottom = "300px" // set the bird's y position
+        birdElement_temp.style.left   =  "25px" // set the bird's x position
+        birdElement = document.getElementById("birds").appendChild(birdElement_temp) // add the bird's html element to the birds html element
+        isClone = false // set the clone variable to false
+        if (firstTime) { // if it's the first generation
+            neurons = newNeurons([4, 32, 8, 1]) // create a new random neural network
         }
         else if (BIRD_COUNT-3 < i) {
-            neurons = BIRD_COUNT-2 == i ? longestLived.nn : secoundLongestLived.nn
-            isClone = true
+            neurons = BIRD_COUNT-2 == i ? longestLived.nn : secoundLongestLived.nn // create a clone of the best birds neural network
+            isClone = true // set the clone variable to true cus we cloned it in the last code
         } else {
-            neurons = generateNeuronsBetween(longestLived.nn, secoundLongestLived.nn, Math.random() * 0.1)
+            neurons = generateNeuronsBetween(longestLived.nn, secoundLongestLived.nn, Math.random() * 0.04) // create a new neural network between the best and the secound best birds with  a random mutation rate
         }
-        birds.push(new bird(birdElement, neurons, isClone))
+        birds.push(new bird(birdElement, neurons, isClone)) // add the new bird to the birds array
     }
-    delete(birdElement_temp)
+    delete(birdElement_temp) // remove the temp bird's html element
 }
 
 
 
 main = () => {
-    bestProgress = 0
-    pipeSeed = Math.random() * 2147483647
-    keydown = false
-    reset(true)
-    window.addEventListener("keydown", () => keydown = true )
-    window.addEventListener("keyup"  , () => keydown = false)
+    bestProgress = 0 // reset the best progress
+    pipeSeed = Math.random() * 2147483647 // set a random seed for pipe generation
+    keydown = false // set the keydown variable to false
+    reset(true) // reset the game
+    window.addEventListener("keydown", () => keydown = true ) // add a keydown event listener
+    window.addEventListener("keyup"  , () => keydown = false) // add a keyup event listener
     setInterval(() => { // process & render
         if (!keydown) {
             gameProcess()
-            train ()
+            processBirdsNeuralNetwork()
             render()
         }
     }, 15)
     setInterval(() => {
         if(keydown){
             gameProcess()
-            train ()
+            processBirdsNeuralNetwork()
             render()
         }
     }, 0)
@@ -343,3 +347,5 @@ main = () => {
 
 
 window.addEventListener("load", main)
+
+//323157714.4525343
