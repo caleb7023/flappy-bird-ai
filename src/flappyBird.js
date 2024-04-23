@@ -229,43 +229,6 @@ generateNeuronsBetween = (nn1, nn2, neuronMutationRate) => {
     return(resultNeurons)
 }
 
-mutateNeurons = (neurons, neuronMutationRate) => {
-    resultNeurons = []
-    for (let i=0; i < neurons.length; i++) {
-        resultNeurons.push([])
-        for (let j=0; j < neurons[i].length; j++) {
-            resultNeurons[i].push([])
-            weights = []
-            for (let k=0; k < neurons[i][j][0].length; k++) {
-                weight = Math.random() < neuronMutationRate ? neurons[i][j][0][k] : Math.random()*5 - 2.5
-                weights.push(weight)
-            }
-            bias = Math.random() < neuronMutationRate ? neurons[i][j][1] : Math.random()*5 - 2.5
-            resultNeurons[i][j] = [weights, bias]
-        }
-    }
-    return(resultNeurons)
-}
-
-
-
-neuronTweak = (nn, error) => {
-    resultNeurons = []
-    for (let i=0; i < nn.length; i++) {
-        weights = []
-        for (let k=0; k < nn[i].length; k++) {
-            weight = nn[i][0][k] + Math.random()*error - error*0.5
-            weights.push(weight)
-        }
-        bias = nn[i][1] + Math.random()*error - error*0.5
-        resultNeurons.push([
-            weights, // weights
-            bias     // bias
-        ])
-    }
-    return(resultNeurons)
-}
-
 
 
 processBirdsNeuralNetwork = () => {
