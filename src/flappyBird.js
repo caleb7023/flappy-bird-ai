@@ -132,12 +132,10 @@ gameProcess = () => {
                 // when the birds touches the bottom of the screen or the top
                 gameover_(targetBird)
                 targetBird.posY = targetBird.posY < 0 ? 0 : HEIGHT-12
-
             } else if (nextPipeDistance <= 0 && (targetBird.posY < nextPipe.height || nextPipe.height+88 < targetBird.posY)) {
                 // when the brid touches a pipe
                 gameover_(targetBird)
                 targetBird.posY = targetBird.posY
-
             }
         }
     })
@@ -162,10 +160,17 @@ gameover_ = (targetBird) => {
 
 
 render = () => {
-    birds.forEach(targetBird => { // render birds
+    deletedBirdCount = 0
+    birds.forEach((targetBird, index) => { // render birds
         targetBird.element.style.bottom = String(targetBird.posY) + "px"
         if (targetBird.gameover) {
-            targetBird.element.style.left = String(targetBird.gameoverX - progress + 25) + "px" // scroll the dead bird
+            birdsXPos = targetBird.gameoverX-progress+25 // calculate the dead bird's x position
+            if (-17 < birdsXPos){
+                targetBird.element.style.left = String(birdsXPos) + "px" // scroll the dead bird
+            } else {
+                targetBird.element.remove()
+                delete(targetBird)
+            }
         }
     })
     pipes.forEach(pipe_ => { // render pipes
