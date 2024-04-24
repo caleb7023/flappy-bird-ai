@@ -134,6 +134,10 @@ p {
     content: "Generation : ";
 }
 
+#remains::before {
+    content: "remains : ";
+}
+
 #score {
     bottom: 380px;
     right: calc(100vw - 233px);
@@ -146,6 +150,11 @@ p {
 
 #generation {
     bottom: 370px;
+    right: calc(100vw - 233px);
+}
+
+#remains {
+    bottom: 360px;
     right: calc(100vw - 233px);
 }
         </style>
@@ -169,6 +178,7 @@ p {
         <div id="pipes"></div>
         <div id="birds"></div>
         <p id="score"     >0</p>
+        <p id="remains"   >0</p>
         <p id="bestScore" >0</p>
         <p id="generation">0</p>
     </body>

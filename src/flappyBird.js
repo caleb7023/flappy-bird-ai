@@ -168,8 +168,8 @@ render = () => {
             if (-17 < birdsXPos){
                 targetBird.element.style.left = String(birdsXPos) + "px" // scroll the dead bird
             } else {
-                targetBird.element.remove()
-                delete(targetBird)
+                targetBird.element.remove() // remove the target bird's html cus it no longer needs to be rendered
+                delete(targetBird) // delete the element from the array
             }
         }
     })
@@ -179,11 +179,12 @@ render = () => {
             pipe_.elements[1].style.left = String(pipe_.posX-progress) + "px"
         }
     })
-    document.getElementById("score"     ).innerHTML = progress
-    document.getElementById("generation").innerHTML = generation
+    document.getElementById("score"     ).innerHTML = progress // update the score on the screen
+    document.getElementById("remains"   ).innerHTML = `${BIRD_COUNT-fails}/${BIRD_COUNT}` // update the remains count on the screen
+    document.getElementById("generation").innerHTML = generation // update the generation count on the screen
     if (bestProgress < progress) {
         bestProgress = progress
-        document.getElementById("bestScore").innerHTML = bestProgress
+        document.getElementById("bestScore").innerHTML = bestProgress // update the best score on the screen
     }
 }
 
