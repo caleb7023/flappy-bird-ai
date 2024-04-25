@@ -283,7 +283,7 @@ reset = (firstTime) => {
             neurons = BIRD_COUNT-2 == i ? longestLived.nn : secoundLongestLived.nn // create a clone of the best birds neural network
             isClone = true // set the clone variable to true cus we cloned it in the last code
         } else {
-            neurons = generateNeuronsBetween(longestLived.nn, secoundLongestLived.nn, Math.random() * 0.04) // create a new neural network between the best and the secound best birds with  a random mutation rate
+            neurons = generateNeuronsBetween(longestLived.nn, secoundLongestLived.nn, Math.random() * 0.1) // create a new neural network between the best and the secound best birds with  a random mutation rate
         }
         birds.push(new bird(birdElement, neurons, isClone)) // add the new bird to the birds array
     }
